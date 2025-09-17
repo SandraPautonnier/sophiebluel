@@ -9,7 +9,7 @@ logText.innerHTML = "login";
 
 // Fonction asynchrone pour récupérer la liste des projets
 async function getWorks() {
-  const reponse = await fetch("http://localhost:5678/api/works");
+  const reponse = await fetch("https://sophiebluel-8ryr.onrender.com/api/works");
   const works = await reponse.json();
   return works;
 }
@@ -40,7 +40,7 @@ async function displayWorks(category) {
 
 // Fonction asynchrone pour récupérer les catégories
 async function getCategories() {
-  const reponse = await fetch("http://localhost:5678/api/categories");
+  const reponse = await fetch("https://sophiebluel-8ryr.onrender.com/api/categories");
   const categories = await reponse.json();
   return categories;
 }
@@ -77,7 +77,7 @@ async function createFilters() {
 createFilters();
 
 async function handleSelectCategory(category) {
-  // Si "Tous" est sélectionné, passez null
+  // Si "Tous" est sélectionné
   if (!category) {
     category = null; // "Tous" est représenté par null
     selectedCategory = null;
@@ -110,6 +110,8 @@ async function handleSelectCategory(category) {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Pour ajouter automatiquement la classe 'active' au menu
 const links = document.querySelectorAll("nav a");
 const currentUrl = window.location.href;
@@ -120,7 +122,7 @@ links.forEach((link) => {
   }
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Fonction pour permettre la connexion via le login et mot de passe (et stockage du token)
 async function connectForm(e) {
@@ -133,7 +135,7 @@ async function connectForm(e) {
   };
 
   // Envoie la requête de connexion
-  const reponse = await fetch("http://localhost:5678/api/users/login", {
+  const reponse = await fetch("https://sophiebluel-8ryr.onrender.com/api/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -217,7 +219,7 @@ const footer = document.querySelector("footer");
 
 portfolioEdit.addEventListener("click", () => {
   openModal.style.display = "flex";
-  displayModalProjects(); // Afficher les projets dans la modale
+  displayModalProjects(); // Affiche les projets dans la modale
 });
 
 closeModal.addEventListener("click", () => {
@@ -233,7 +235,7 @@ window.addEventListener("click", (e) => {
 async function displayModalProjects() {
   const works = await getWorks(); // Fonction pour récupérer les projets depuis l'API
 
-  modalProjectsGrid.innerHTML = ""; // Vider la galerie avant d'ajouter les projets
+  modalProjectsGrid.innerHTML = ""; // Vide la galerie avant d'ajouter les projets
 
   works.forEach((work) => {
     const figureElement = document.createElement("figure");
@@ -246,12 +248,12 @@ async function displayModalProjects() {
     deleteButton.classList.add("fa-solid", "fa-trash-can");
     deleteButton.classList.add("delete-project");
 
-    // Supprimer le projet via l'API et du DOM dans la modale
+    // Supprime le projet via l'API et du DOM dans la modale
     deleteButton.addEventListener("click", async () => {
       if (confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) {
         const deleted = await deleteWork(work.id); // Fonction pour supprimer le projet de l'API
         if (deleted) {
-          figureElement.remove(); // Retirer l'élément du DOM dans la modale
+          figureElement.remove(); // Retire l'élément du DOM dans la modale
           displayWorks(selectedCategory);
         }
       }
@@ -266,7 +268,7 @@ async function displayModalProjects() {
 
 //Fonction pour supprimer un projet
 async function deleteWork(workId) {
-  const reponse = await fetch(`http://localhost:5678/api/works/${workId}`, { method: 'DELETE', headers: {Authorization: `Bearer ${token}`} });
+  const reponse = await fetch(`https://sophiebluel-8ryr.onrender.com/api/works/${workId}`, { method: 'DELETE', headers: {Authorization: `Bearer ${token}`} });
   return reponse.ok;
 }
 
@@ -329,7 +331,7 @@ imageInput.addEventListener("change", function () {
 
 //Fonction pour l'élément select avec les catégories
 async function createCategoriesSelect() {
-  const reponse = await fetch("http://localhost:5678/api/categories");
+  const reponse = await fetch("https://sophiebluel-8ryr.onrender.com/api/categories");
   const categories = await reponse.json();
   const categorySelect = document.querySelector(".custom-select");
 
@@ -371,7 +373,7 @@ addProjectForm.addEventListener("submit", async (e) => {
   // Crée un objet FormData pour envoyer les données du formulaire
   const formData = new FormData(addProjectForm);
 
-  const reponse = await fetch("http://localhost:5678/api/works", {
+  const reponse = await fetch("https://sophiebluel-8ryr.onrender.com/api/works", {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
     body: formData
