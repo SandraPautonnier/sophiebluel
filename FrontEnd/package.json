@@ -1,0 +1,11 @@
+{
+  "name": "sophie-bluel",
+  "version": "1.0.0",
+  "homepage": "https://sandrapautonnier.github.io/Portfolio-architecte-sophie-bluel-master/",
+  "scripts": {
+    "deploy": "gh-pages -d ."
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
+  }
+}
